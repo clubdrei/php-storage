@@ -1,0 +1,21 @@
+{
+  "name": "c3/php-storage",
+  "type": "library",
+  "license": "AGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "clubdrei.com Medienagentur OG",
+      "email": "office@clubdrei.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "league/flysystem-webdav": "^1.0",
+    "myclabs/php-enum": "^1.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "C3\\PhpStorage\\": "src/"
+    }
+  }
+}

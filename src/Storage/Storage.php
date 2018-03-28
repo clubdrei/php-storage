@@ -40,7 +40,9 @@ class Storage implements StorageInterface
             if (!file_exists($localFilePath)) {
                 // File doesn't exist in $localPath
                 if ($remoteFile['type'] === StorageInterface::FILE_TYPE_DIR) {
-                    mkdir($localFilePath . $pathWithoutPrefix, 0700, true);
+                    if (!file_exists($localFilePath)) {
+                        mkdir($localFilePath, 0700, true);
+                    }
                 } else {
                     $this->download($remoteFile['path'], $localFilePath);
                     $changedFiles->addAddedFile(new \SplFileInfo($localFilePath));

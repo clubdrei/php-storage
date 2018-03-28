@@ -5,8 +5,8 @@ namespace C3\PhpStorage\Factory;
 
 use C3\PhpStorage\Exception\FileSystem\UnknownFileSystemTypeException;
 use C3\PhpStorage\Storage\Storage;
+use C3\PhpStorage\Storage\StorageInterface;
 use C3\PhpStorage\Type\StorageTypeEnum;
-use C3\Storage\Storage\StorageInterface;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\WebDAV\WebDAVAdapter;
@@ -18,7 +18,7 @@ class StorageFactory
      * @param \C3\PhpStorage\Type\StorageTypeEnum $type
      * @param string $baseUri
      * @param array $settings
-     * @return \C3\Storage\Storage\StorageInterface
+     * @return \C3\PhpStorage\Storage\StorageInterface
      * @throws \C3\PhpStorage\Exception\FileSystem\UnknownFileSystemTypeException
      * @throws \InvalidArgumentException
      * @throws \LogicException
@@ -42,7 +42,7 @@ class StorageFactory
                     "Couldn't find an file system adapter for TYPE " . $type
                 );
         }
-        
+
         return new Storage(new Filesystem($adapter));
     }
 }

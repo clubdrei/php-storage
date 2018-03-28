@@ -71,7 +71,7 @@ class Storage implements StorageInterface
 
     protected function hasChanged(array $remoteFile, \SplFileInfo $localFile): bool
     {
-        if ($remoteFile['type'] !== StorageInterface::FILE_TYPE_DIR) {
+        if ($remoteFile['type'] !== StorageInterface::FILE_TYPE_FILE) {
             // Ignore directories and symlinks
             return false;
         }

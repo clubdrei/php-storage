@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace C3\Storage\Model;
+namespace C3\PhpStorage\Model;
 
 use SplFileInfo;
 

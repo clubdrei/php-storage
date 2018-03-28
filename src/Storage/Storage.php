@@ -5,7 +5,7 @@ namespace C3\PhpStorage\Storage;
 
 use C3\PhpStorage\Exception\FileNotReadableException;
 use C3\PhpStorage\Utility\FileUtility;
-use C3\Storage\Model\ChangedFiles;
+use C3\PhpStorage\Model\ChangedFiles;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 
@@ -22,7 +22,7 @@ class Storage implements StorageInterface
      * @param string $remotePath
      * @param \SplFileInfo $localPath
      * @param bool $delete
-     * @return \C3\Storage\Model\ChangedFiles
+     * @return \C3\PhpStorage\Model\ChangedFiles
      * @throws \League\Flysystem\FileNotFoundException
      */
     public function syncRemoteToLocal(string $remotePath, \SplFileInfo $localPath, bool $delete = false): ChangedFiles

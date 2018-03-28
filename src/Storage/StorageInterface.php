@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace C3\PhpStorage\Storage;
 
-use C3\Storage\Model\ChangedFiles;
+use C3\PhpStorage\Model\ChangedFiles;
 
 interface StorageInterface
 {

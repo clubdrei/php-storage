@@ -98,6 +98,11 @@ class Storage implements StorageInterface
     {
         $stream = $this->fileSystem->readStream($filePath);
         file_put_contents($destinationPath, $stream);
+        // Preserve mtime
+        $metaData = $this->fileSystem->getMetadata($filePath);
+        if (!empty($metaData['timestamp'])) {
+            touch($destinationPath, (int)$metaData['timestamp']);
+        }
         if (is_resource($stream)) {
             fclose($stream);
         }

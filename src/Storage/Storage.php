@@ -6,7 +6,6 @@ namespace C3\PhpStorage\Storage;
 use C3\PhpStorage\Exception\FileNotReadableException;
 use C3\PhpStorage\Utility\FileUtility;
 use C3\Storage\Model\ChangedFiles;
-use C3\Storage\Storage\StorageInterface;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace C3\Storage\Storage;
+namespace C3\PhpStorage\Storage;
 
 use C3\Storage\Model\ChangedFiles;
 

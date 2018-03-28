@@ -35,7 +35,12 @@ class StorageFactory
             case StorageTypeEnum::WEB_DAV():
                 $settings['baseUri'] = $baseUri;
                 $client = new Client($settings);
-                $adapter = new WebDAVAdapter($client);
+                if (!empty($settings['prefix'])) {
+                    $adapter = new WebDAVAdapter($client, $settings['prefix']);
+                } else {
+                    $adapter = new WebDAVAdapter($client);
+                }
+
                 break;
             default:
                 throw new UnknownFileSystemTypeException(

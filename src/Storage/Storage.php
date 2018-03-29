@@ -13,14 +13,29 @@ use C3\PhpStorage\Utility\FileUtility;
 use C3\PhpStorage\Model\ChangedFiles;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class Storage implements StorageInterface
 {
+    /**
+     * @var \League\Flysystem\Filesystem
+     */
     protected $fileSystem;
 
-    public function __construct(Filesystem $fileSystem)
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(Filesystem $fileSystem, LoggerInterface $logger = null)
     {
         $this->fileSystem = $fileSystem;
+        if (null === $logger) {
+            $this->logger = new NullLogger();
+        } else {
+            $this->logger = $logger;
+        }
     }
 
     /**
@@ -114,6 +129,8 @@ class Storage implements StorageInterface
         $result = new ProcessFileResult();
         $result->setStatus(ProcessFileStatusEnum::OK());
 
+        $this->logger->info('Start processing remote file', $remoteFile);
+
         try {
             $pathWithoutPrefix = FileUtility::removeBasePath($remoteFile['path'], $remotePath);
             $localFilePath = $localPath . $pathWithoutPrefix;
@@ -140,6 +157,8 @@ class Storage implements StorageInterface
             $result->setStatus(ProcessFileStatusEnum::ERROR());
             $result->setData(['error' => $e->getMessage(), 'stackTrace' => $e->getTraceAsString()]);
         }
+
+        $this->logger->info('Finished processing remote file', ['result' => var_export($result, true)]);
 
         return $result;
     }

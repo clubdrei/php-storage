@@ -10,6 +10,7 @@ use C3\PhpStorage\Type\StorageTypeEnum;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\WebDAV\WebDAVAdapter;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Client;
 
 class StorageFactory
@@ -18,6 +19,7 @@ class StorageFactory
      * @param \C3\PhpStorage\Type\StorageTypeEnum $type
      * @param string $baseUri
      * @param array $settings
+     * @param \Psr\Log\LoggerInterface|null $logger
      * @return \C3\PhpStorage\Storage\StorageInterface
      * @throws \C3\PhpStorage\Exception\FileSystem\UnknownFileSystemTypeException
      * @throws \InvalidArgumentException
@@ -26,7 +28,8 @@ class StorageFactory
     public static function create(
         StorageTypeEnum $type,
         string $baseUri,
-        array $settings
+        array $settings,
+        LoggerInterface $logger = null
     ): StorageInterface {
         switch ($type) {
             case StorageTypeEnum::LOCAL():
@@ -48,6 +51,6 @@ class StorageFactory
                 );
         }
 
-        return new Storage(new Filesystem($adapter));
+        return new Storage(new Filesystem($adapter), $logger);
     }
 }

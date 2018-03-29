@@ -98,4 +98,21 @@ class ChangedFiles
     {
         return !empty($this->removedFiles) || !empty($this->changedFiles) || !empty($this->addedFiles);
     }
+
+    public function addProcessFileResult(ProcessFileResult $processFileResult)
+    {
+        if ($processFileResult->getStatus()->equals(ProcessFileStatusEnum::OK())) {
+            switch ($processFileResult->getChangeType()) {
+                case ProcessFileChangeTypeEnum::ADD():
+                    $this->addAddedFile($processFileResult->getFile());
+                    break;
+                case ProcessFileChangeTypeEnum::CHANGE():
+                    $this->addChangedFile($processFileResult->getFile());
+                    break;
+                case ProcessFileChangeTypeEnum::DELETE():
+                    $this->addRemovedFile($processFileResult->getFile());
+                    break;
+            }
+        }
+    }
 }

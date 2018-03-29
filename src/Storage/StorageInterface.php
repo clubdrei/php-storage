@@ -9,8 +9,14 @@ interface StorageInterface
 {
     const FILE_TYPE_DIR = 'dir';
     const FILE_TYPE_FILE = 'file';
-    
+
     public function syncRemoteToLocal(string $remotePath, \SplFileInfo $localPath, bool $delete = false): ChangedFiles;
+
+    public function syncRemoteToLocalParallel(
+        string $remotePath,
+        \SplFileInfo $localPath,
+        bool $delete = false
+    ): ChangedFiles;
 
     public function download(string $filePath, string $destinationPath): void;
 

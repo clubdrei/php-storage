@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace C3\PhpStorage\Storage;
 
-use function Amp\ParallelFunctions\parallelMap;
-use function Amp\Promise\wait;
 use C3\PhpStorage\Exception\FileNotReadableException;
 use C3\PhpStorage\Model\ProcessFileChangeTypeEnum;
 use C3\PhpStorage\Model\ProcessFileResult;
@@ -59,44 +57,6 @@ class Storage implements StorageInterface
 
         return $changedFiles;
     }
-
-    /**
-     * @param string $remotePath
-     * @param \SplFileInfo $localPath
-     * @param bool $delete
-     * @return \C3\PhpStorage\Model\ChangedFiles
-     * @throws \Throwable
-     */
-    public function syncRemoteToLocalParallel(
-        string $remotePath,
-        \SplFileInfo $localPath,
-        bool $delete = false
-    ): ChangedFiles {
-        $changedFiles = new ChangedFiles();
-        $localPath = FileUtility::addTrailingSlash($localPath->getRealPath());
-        $remotePath = FileUtility::addTrailingSlash($remotePath);
-
-        $remoteFiles = $this->fileSystem->listContents($remotePath, true);
-
-        $results = wait(
-            parallelMap(
-                $remoteFiles,
-                function ($remoteFile) use ($localPath, $remotePath) {
-                    return $this->processRemoteFile($remoteFile, $remotePath, $localPath);
-                }
-            )
-        );
-
-        // Process results
-        foreach ($results as $result) {
-            $changedFiles->addProcessFileResult($result);
-        }
-
-        $changedFiles->setRemovedFiles($this->findRemovedFiles(new \SplFileInfo($localPath), $remotePath, $delete));
-
-        return $changedFiles;
-    }
-
 
     protected function findRemovedFiles(\SplFileInfo $localPath, string $remotePath, bool $delete): array
     {

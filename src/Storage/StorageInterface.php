@@ -12,12 +12,6 @@ interface StorageInterface
 
     public function syncRemoteToLocal(string $remotePath, \SplFileInfo $localPath, bool $delete = false): ChangedFiles;
 
-    public function syncRemoteToLocalParallel(
-        string $remotePath,
-        \SplFileInfo $localPath,
-        bool $delete = false
-    ): ChangedFiles;
-
     public function download(string $filePath, string $destinationPath): void;
 
     public function downloadContent(string $filePath): string;
